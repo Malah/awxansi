@@ -1,4 +1,3 @@
----
 - name: Update timezone to Asia/Jakarta
   hosts: all
   become: yes
