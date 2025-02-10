@@ -1,4 +1,3 @@
----
 - name: Update RHEL system
   hosts: all
   become: yes
