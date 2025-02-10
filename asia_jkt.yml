@@ -1,0 +1,16 @@
+---
+- name: Update timezone to Asia/Jakarta
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update timezone
+      command: timedatectl set-timezone Asia/Jakarta
+
+    - name: Verify timezone update
+      command: timedatectl
+      register: result
+
+    - name: Display timezone information
+      debug:
+        var: result.stdout
