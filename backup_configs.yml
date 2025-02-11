@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   vars:
-    backup_dir: /var/backup/awx-job
+    backup_dir: ~/backup
 
   tasks:
     - name: Create backup directory
