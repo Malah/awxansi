@@ -12,11 +12,17 @@
         state: directory
         mode: '0755'
 
-    - name: Backup SSH configuration
-      copy:
+    #- name: Backup SSH configuration
+    #  copy:
+    #   src: /etc/ssh/sshd_config
+    #   dest: "{{ backup_dir }}/sshd_config.backup"
+    #   backup: yes
+        
+    - name: Fetch SSHD configuration file
+      fetch:
         src: /etc/ssh/sshd_config
         dest: "{{ backup_dir }}/sshd_config.backup"
-        backup: yes
+        flat: yes
 
     - name: Backup PAM configuration
       copy:
