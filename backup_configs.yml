@@ -30,11 +30,11 @@
         dest: "{{ backup_dir }}/system-auth.backup"
         backup: yes
 
-    - name: Backup Sysctl configuration
-      copy:
-        src: /etc/sysctl.conf
-        dest: "{{ backup_dir }}/sysctl.conf.backup"
-        backup: yes
+    #- name: Backup Sysctl configuration
+     # copy:
+     #   src: /etc/sysctl.conf
+     #   dest: "{{ backup_dir }}/sysctl.conf.backup"
+     #   backup: yes
 
     - name: Backup SELinux configuration
       copy:
