@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   vars:
-    backup_dir: /var/lib/awx/projects/backup_h
+    backup_dir: /var/backup/awx-job/backup
 
   tasks:
     - name: Create backup directory
