@@ -36,12 +36,23 @@
      #   dest: "{{ backup_dir }}/sysctl.conf.backup"
      #   backup: yes
 
-    - name: Backup SELinux configuration
-      copy:
+   # - name: Backup SELinux configuration
+   #   copy:
+   #     src: /etc/selinux/config
+   #     dest: "{{ backup_dir }}/selinux_config.backup"
+   #     backup: yes
+    - name: Fetch Sysctl configuration
+      fetch:
+        src: /etc/sysctl.conf
+        dest: "{{ backup_dir }}/sysctl.conf.backup"
+        flat: yes
+
+    - name: Fetch SELinux configuration
+      fetch:
         src: /etc/selinux/config
         dest: "{{ backup_dir }}/selinux_config.backup"
-        backup: yes
-
+        flat: yes
+        
     - name: Backup Firewall configuration
       copy:
         src: /etc/firewalld/firewalld.conf
