@@ -1,0 +1,46 @@
+#- name: Set GDM3 Banner Message
+#  hosts: all
+#  become: yes
+- name: Backup the original greeter.dconf-defaults file
+  copy:
+    src: /etc/gdm3/greeter.dconf-defaults
+    dest: /etc/gdm3/greeter.dconf-defaults.bak
+    backup: yes
+
+- name: Set banner message text
+  lineinfile:
+    path: /etc/gdm3/greeter.dconf-defaults
+    regexp: '^#?banner-message-text='
+    line: "banner-message-text='{{ banner_message }}'"
+    create: yes
+
+- name: Restart GDM3 service
+  service:
+    name: gdm3
+    state: restarted
+
+- name: Ensure /etc/issue file exists
+  file:
+    path: /etc/issue
+    state: touch
+
+- name: Set SSH login banner
+  lineinfile:
+    path: /etc/issue
+    create: yes
+    line: "{{ ssh_banner }}"
+    state: present
+    mode: '0644'
+
+- name: Update SSHD configuration to use the banner
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#Banner.*'
+    line: 'Banner /etc/issue'
+    state: present
+    mode: '0644'
+
+- name: Restart SSH service
+  service:
+    name: sshd
+    state: restarted
