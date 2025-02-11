@@ -53,20 +53,38 @@
         dest: "{{ backup_dir }}/selinux_config.backup"
         flat: yes
         
-    - name: Backup Firewall configuration
-      copy:
+      - name: Fetch Firewall configuration
+      fetch:
         src: /etc/firewalld/firewalld.conf
         dest: "{{ backup_dir }}/firewalld.conf.backup"
         backup: yes
 
-    - name: Backup Auditd configuration
-      copy:
+    - name: Fetch Auditd configuration
+      fetch:
         src: /etc/audit/auditd.conf
         dest: "{{ backup_dir }}/auditd.conf.backup"
-        backup: yes
+        flat: yes
 
-    - name: Backup Grub configuration
-      copy:
+    - name: Fetch Grub configuration
+      fetch:
         src: /etc/default/grub
         dest: "{{ backup_dir }}/grub.backup"
-        backup: yes
+        flat: yes
+        
+    #- name: Backup Firewall configuration
+    #  copy:
+    #    src: /etc/firewalld/firewalld.conf
+    #    dest: "{{ backup_dir }}/firewalld.conf.backup"
+    #    backup: yes
+
+    #- name: Backup Auditd configuration
+    #  copy:
+    #    src: /etc/audit/auditd.conf
+    #    dest: "{{ backup_dir }}/auditd.conf.backup"
+    #    backup: yes
+
+   # - name: Backup Grub configuration
+   #   copy:
+   #     src: /etc/default/grub
+   #    dest: "{{ backup_dir }}/grub.backup"
+   #   backup: yes
