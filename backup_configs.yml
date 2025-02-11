@@ -53,7 +53,7 @@
         dest: "{{ backup_dir }}/selinux_config.backup"
         flat: yes
         
-      - name: Fetch Firewall configuration
+    - name: Fetch Firewall configuration
       fetch:
         src: /etc/firewalld/firewalld.conf
         dest: "{{ backup_dir }}/firewalld.conf.backup"
