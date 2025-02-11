@@ -1,0 +1,69 @@
+---
+- name: Restore Config Files After Hardening
+  hosts: all
+  become: yes
+  vars:
+    backup_dir: /home/itscr/backup_h
+
+  tasks:
+    - name: Restore SSH configuration
+      copy:
+        src: "{{ backup_dir }}/sshd_config.backup"
+        dest: /etc/ssh/sshd_config
+
+    - name: Restore PAM configuration
+      copy:
+        src: "{{ backup_dir }}/system-auth.backup"
+        dest: /etc/pam.d/system-auth
+
+    - name: Restore Sysctl configuration
+      copy:
+        src: "{{ backup_dir }}/sysctl.conf.backup"
+        dest: /etc/sysctl.conf
+
+    - name: Restore SELinux configuration
+      copy:
+        src: "{{ backup_dir }}/selinux_config.backup"
+        dest: /etc/selinux/config
+
+    - name: Restore Firewall configuration
+      copy:
+        src: "{{ backup_dir }}/firewalld.conf.backup"
+        dest: /etc/firewalld/firewalld.conf
+
+    - name: Restore Auditd configuration
+      copy:
+        src: "{{ backup_dir }}/auditd.conf.backup"
+        dest: /etc/audit/auditd.conf
+
+    - name: Restore Grub configuration
+      copy:
+        src: "{{ backup_dir }}/grub.backup"
+        dest: /etc/default/grub
+
+    - name: Restart SSH service
+      service:
+        name: sshd
+        state: restarted
+
+    - name: Restart Firewall service
+      service:
+        name: firewalld
+        state: restarted
+
+    - name: Reload Sysctl settings
+      command: sysctl -p
+
+    - name: Restart Auditd service
+      service:
+        name: auditd
+        state: restarted
+
+    - name: Apply Grub configuration
+      command: grub2-mkconfig -o /boot/grub2/grub.cfg
+      notify: Reboot System
+
+  handlers:
+    - name: Reboot System
+      reboot:
+        msg: "Rebooting to apply Grub configuration changes."
