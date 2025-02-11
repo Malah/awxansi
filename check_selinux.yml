@@ -1,0 +1,12 @@
+---
+- name: Check SELinux Status
+  hosts: all
+  become: yes
+  tasks:
+    - name: Get SELinux status
+      command: sestatus
+      register: sestatus_output
+
+    - name: Print SELinux status
+      debug:
+        msg: "{{ sestatus_output.stdout }}"
